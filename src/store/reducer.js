@@ -1,7 +1,31 @@
 import initialState from "./initialState";
 import * as TYPES from './actions';
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = [{
+    title: "Blazing Saddles",
+    year: 1974,
+    format: "VHS",
+    actors: [
+      "Mel Brooks",
+      "Clevon Little",
+      "Harvey Korman",
+      "Gene Wilder",
+      "Slim Pickens",
+      "Madeline Kahn"
+    ]
+  }, {
+    title: "Blazing Saddles",
+    year: 1974,
+    format: "VHS",
+    actors: [
+      "Mel Brooks",
+      "Clevon Little",
+      "Harvey Korman",
+      "Gene Wilder",
+      "Slim Pickens",
+      "Madeline Kahn"
+    ]
+  }], action) => {
 	switch(action.type) {
 
         case TYPES.CREATE_MOVIE: {

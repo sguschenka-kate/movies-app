@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { fetchService } from './api/fetchService';
 import * as TYPES from './store/actions';
+import {store} from './store';
 
 function App() {
   const [movie, setMovie] = useState({
@@ -18,6 +20,9 @@ function App() {
     ]
 });
 
+const movies = useSelector((state) => state.movies);
+console.log(movies)
+
   const dispatch = useDispatch();
 
   async function createMovie() {
@@ -31,10 +36,27 @@ function App() {
   return (
     <div className="App">
 
-      <button className='btn'>Create a movie</button>
-      <button className='btn'>Create a movie</button>
-      <button className='btn'>Create a movie</button>
-      <button className='btn'>Create a movie</button>
+      <div className='container'>
+
+        <button className='btn'>Create a movie</button>
+
+        <div className="row">
+          <div className="col s12 m6">
+            <div className="card blue-grey darken-1">
+              <div className="card-content white-text">
+                <span className="card-title">Card Title</span>
+                <p>I am a very simple card. I am good at containing small bits of information.
+                I am convenient because I require little markup to use effectively.</p>
+              </div>
+              <div className="card-action">
+                <a href="#">This is a link</a>
+                <a href="#">This is a link</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
     </div>
   );
 }
