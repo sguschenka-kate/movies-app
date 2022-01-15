@@ -1,44 +1,56 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchService } from './api/fetchService';
+import { useSelector } from 'react-redux';
 import * as TYPES from './store/actions';
-import { Modal } from './components/Modal';
+import { fetchService }from './api/fetchService';
+import { ModalWindow } from './components/ModalWindow';
+import { Card } from './components/Card';
+import { useDispatch } from 'react-redux';
+import { SignUpForm } from './components/SignUpForm';
 
 function App() {
-  const [movie, setMovie] = useState({
-    "title": "Blazing Saddles",
-    "year": 1974,
-    "format": "VHS",
-    "actors": [
-        "Mel Brooks",
-        "Clevon Little",
-        "Harvey Korman",
-        "Gene Wilder",
-        "Slim Pickens",
-        "Madeline Kahn"
-    ]
-});
-
-  const [showModal, setShowModal] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const dispatch = useDispatch();
+  const movies = useSelector((state) => state.movies);
+  movies && console.log(movies)
 
-  async function createMovie() {
-      const response = await fetchService.createMovie(movie);
+  useEffect(() => {
+    async function getMovies() {
+      const response = await fetchService.getMovies();
       dispatch({
-          type: TYPES.CREATE_MOVIE,
-          payload: response
+        type: TYPES.GET_MOVIES,
+        payload: response
       })
-  }
+    }
+  }, [])
+
 
   return (
-    <div className="App">
+    <>
+      {isAuthenticated ?
 
-      <button className='btn modal-trigger' onClick={() => setShowModal(true)}>Create a movie</button>
+        <div className="app">
+          <header>
+            <nav>
+              <div className="nav-wrapper teal lighten-1 z-depth-1">
+                <span className="brand-logo center logo">MOVIES</span>
+              </div>
+            </nav>
+          </header>
 
-      {showModal && <Modal />}
-    </div>
-  );
+          <div className="container pt-10px">
+            <ModalWindow  />
+            <div className="row">
+              {movies && movies.length > 0 && movies.map(movie => {
+                return <Card movie={movie} key={movie.id} />
+              })}
+            </div>
+          </div>
+        </div> :
+        <SignUpForm setIsAuthenticated={setIsAuthenticated} />
+      }
+    </>
+  )
 }
 
 export {

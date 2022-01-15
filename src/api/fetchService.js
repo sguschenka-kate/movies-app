@@ -2,10 +2,38 @@ import axios from 'axios';
 const baseUrl = 'http://localhost:8000/api/v1';
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjI0OTcyMjYwfQ.X31cryg_A126WLYT96PD-SLLFWSxb2SeoQZ4cvx3VhU';
 
+async function createUser(body){
+  await axios.post(`${baseUrl}/users`, body, {
+    headers: {
+      'Authorization': `${token}`
+    }
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
+async function getMovies(){
+  await axios.get(`${baseUrl}/movies`, {
+    headers: {
+      'Authorization': `${token}`
+    }
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
 async function createMovie(body) {
   await axios.post(`${baseUrl}/movies`, body, {
       headers: {
-        'Authorization': `Basic ${token}`
+        'Authorization': `${token}`
       }
   })
   .then(function (response) {
@@ -17,7 +45,9 @@ async function createMovie(body) {
 }
 
 const fetchService = {
+    getMovies,
     createMovie,
+    createUser
 }
 
 export {
