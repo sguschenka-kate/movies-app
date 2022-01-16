@@ -1,29 +1,59 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as TYPES from './store/actions';
-import { fetchService }from './api/fetchService';
-import { ModalWindow } from './components/ModalWindow';
-import { Card } from './components/Card';
-import { useDispatch } from 'react-redux';
+import { get }from './api';
 import { SignUpForm } from './components/SignUpForm';
+import { CreateMovie } from './components/CreateMovie';
+import { UploadMovie } from './components/UploadMovie';
+import { SearchMovies } from './components/SearchMovies';
+import { MoviesTable } from './components/MoviesTable';
+import LinearProgress from '@mui/material/LinearProgress';
+import {destroy} from './api';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const movies = useSelector((state) => state.movies);
-  movies && console.log(movies)
+  const movies = useSelector(state => state.movies);
+
+
+  async function deleteMovie(id) {
+    setLoading(true);
+    const r = await destroy(`movies/${id}`);
+    console.log(r)
+    dispatch({
+        type: TYPES.DELETE_MOVIE,
+        payload: id
+    });
+    setLoading(false)
+  }
+
+  async function fetchMovies(params={}) {
+    setLoading(true);
+    const r = await get('movies', params);
+    dispatch({
+      type: TYPES.FETCH_MOVIES,
+      payload: r
+    })
+    setLoading(false)
+  }
 
   useEffect(() => {
-    async function getMovies() {
-      const response = await fetchService.getMovies();
-      dispatch({
-        type: TYPES.GET_MOVIES,
-        payload: response
-      })
+    function checkUserAuth() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        dispatch({
+          type: TYPES.CREATE_USER,
+          payload: token
+        });
+        return setIsAuthenticated(true);
+      }
     }
-  }, [])
 
+    checkUserAuth()
+    fetchMovies()
+  }, [])
 
   return (
     <>
@@ -37,14 +67,24 @@ function App() {
               </div>
             </nav>
           </header>
+          {loading && <LinearProgress />}
 
           <div className="container pt-10px">
-            <ModalWindow  />
-            <div className="row">
-              {movies && movies.length > 0 && movies.map(movie => {
-                return <Card movie={movie} key={movie.id} />
-              })}
-            </div>
+
+            <>
+              <div className="actions">
+                <CreateMovie />
+                <UploadMovie />
+                <SearchMovies fetchMovies={fetchMovies} />
+              </div>
+                {movies && movies.length > 0
+              ?
+                <MoviesTable movies={movies} deleteMovie={deleteMovie} />
+              :
+              <p>You have no movies here yet...🎬</p>
+              }
+            </>
+
           </div>
         </div> :
         <SignUpForm setIsAuthenticated={setIsAuthenticated} />

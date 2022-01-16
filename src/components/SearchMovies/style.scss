@@ -1,0 +1,13 @@
+.search {
+    &-form {
+        width: 100%;
+        align-self: flex-end;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    &-autocomplete {
+        min-width: 210px;
+    }
+}

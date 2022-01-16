@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TextInput, Button } from 'react-materialize';
 import { useDispatch } from 'react-redux';
-import {fetchService} from '../../api/fetchService';
+import { post } from '../../api';
 import * as TYPES from '../../store/actions';
 import './style.scss';
 
@@ -15,26 +15,27 @@ function SignUpForm({setIsAuthenticated}) {
 
   const dispatch = useDispatch();
 
-  async function createUser() {
-    console.log(user)
-    if (!!user.password && user.password === user.confirmPassword) {
-      const response = await fetchService.createUser(user);
-      dispatch({
-          type: TYPES.CREATE_USER,
-          payload: response
-      });
-      console.log(response)
-      setIsAuthenticated(true)
-    } else {
+  async function createUser(e) {
+     e.preventDefault();
+
+    if (!user.password || user.password !== user.confirmPassword) {
       alert('Passwords are not identical!')
+      return;
     }
 
+    const r = await post('users', user)
+    console.log(r)
+    dispatch({
+      type: TYPES.CREATE_USER,
+      payload: r.token
+    });
+    setIsAuthenticated(true)
   };
 
     return (
         <>
           <h2 className="center">Please, sign up 👇🏻</h2>
-          <form className="z-depth-4 sign-up-form teal lighten-5" onSubmit={e => e.preventDefault()}>
+          <form className="z-depth-4 sign-up-form teal lighten-5" onSubmit={e => createUser(e)}>
               <TextInput
                   id="email"
                   required
@@ -67,7 +68,7 @@ function SignUpForm({setIsAuthenticated}) {
                   validate
               />
 
-              <Button node="button" onClick={() => createUser()} waves="green">SIGN UP</Button>,
+              <Button node="button" waves="green">SIGN UP</Button>,
 
           </form>
         </>

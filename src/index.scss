@@ -35,3 +35,9 @@ body {
 .modal-open {
   overflow: hidden;
 }
+
+.actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}

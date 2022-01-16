@@ -4,19 +4,11 @@ import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch } from 'react-redux';
 import * as TYPES from '../../store/actions';
-import { fetchService } from '../../api/fetchService';
+import { post } from '../../api';
 import './style.scss';
 
-function ModalWindow() {
-
+function CreateMovie() {
     const [movie, setMovie] = useState({
-        title: '',
-        year: null,
-        format: '',
-        actors: []
-    });
-
-    const [preparedMovie, setPreparedMovie] = useState({
         title: '',
         year: null,
         format: '',
@@ -26,40 +18,40 @@ function ModalWindow() {
     const [format] = useState({
         1: 'VHS',
         2: 'DVD',
-        3: 'Blu-Raye',
+        3: 'Blu-Ray',
     });
 
     const dispatch = useDispatch();
 
     async function postMovie() {
-        function prepareMovie() {
-            const year = movie.year.getFullYear();
-            const actors = movie.actors.map(el => {
-                return el.tag
-            })
-            console.log(year)
-            console.log(actors)
+        const preparedMovie = {
+            ...movie,
+            year: movie.year.getFullYear(),
+            actors: movie.actors.map(el => {
+                return el.tag;
+            }),
+        };
 
-            return setPreparedMovie({...movie, year, actors})
-        }
-
-        prepareMovie()
-
-
-        const response = await fetchService.createMovie(preparedMovie);
+        const r = await post('movies', preparedMovie);
         dispatch({
             type: TYPES.CREATE_MOVIE,
-            payload: response
-        })
+            payload: r
+        });
+
+        setMovie({
+            title: '',
+            year: null,
+            format: '',
+            actors: []
+        });
+        alert('Movie is successfully added')
     }
-
-
 
     return (
         <form>
             <Modal
                 actions={[
-                    <Button node="button" onClick={postMovie} waves="green">ADD</Button>,
+                    <Button node="button" onClick={postMovie} modal="close" waves="green">ADD</Button>,
                     <Button flat modal="close" node="button" waves="green">CLOSE</Button>
                 ]}
                 bottomSheet={false}
@@ -87,6 +79,7 @@ function ModalWindow() {
                         id="title"
                         required
                         label="Title"
+                        value={movie.title}
                         onChange={(e) => setMovie({...movie, title: e.target.value})}
                         validate
                     />
@@ -128,10 +121,7 @@ function ModalWindow() {
                         }}
                         value=""
                         >
-                        <option
-                            disabled
-                            value=""
-                        >
+                        <option value="" disabled>
                             Choose your option
                         </option>
                         <option value="1">
@@ -165,5 +155,5 @@ function ModalWindow() {
 }
 
 export {
-    ModalWindow
+    CreateMovie
 }

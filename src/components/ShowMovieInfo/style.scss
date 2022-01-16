@@ -1,0 +1,22 @@
+$mainColor: #26a69a;
+$secondaryColor: #4CAF50;
+
+.datepicker input {
+    margin: 0!important;
+}
+
+.MuiPickersToolbar-toolbar {
+    background-color: $mainColor !important;
+}
+
+.MuiTypography-colorPrimary {
+    color: $mainColor !important;
+}
+
+.MuiFormLabel-root.Mui-focused {
+    color: $secondaryColor !important
+}
+
+.MuiInput-underline:after {
+    border-bottom: 2px solid $secondaryColor !important
+}
