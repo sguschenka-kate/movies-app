@@ -9,10 +9,10 @@ import './index.scss';
 const store = createStore(reducer)
 
 ReactDOM.render(
-  <React>
+  <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React>,
+  </React.StrictMode>,
   document.getElementById('root')
 );
