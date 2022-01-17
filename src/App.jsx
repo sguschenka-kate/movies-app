@@ -52,8 +52,13 @@ function App() {
     }
 
     checkUserAuth()
-    fetchMovies()
   }, [])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchMovies()
+    }
+  }, [isAuthenticated])
 
   return (
     <>
