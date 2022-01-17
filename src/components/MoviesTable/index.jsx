@@ -4,7 +4,7 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { ButtonBase, IconButton, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table } from '@mui/material';
-import { ShowMovieInfo } from '../ShowMovieInfo';
+import { ShowMovieInfo } from '../ShowMovieInfo/index.jsx';
 import * as TYPES from '../../store/actions';
 import { get } from '../../api';
 

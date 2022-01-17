@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as TYPES from './store/actions';
 import { get }from './api';
-import { SignUpForm } from './components/SignUpForm';
-import { CreateMovie } from './components/CreateMovie';
-import { UploadMovie } from './components/UploadMovie';
-import { SearchMovies } from './components/SearchMovies';
-import { MoviesTable } from './components/MoviesTable';
+import { SignUpForm } from './components/SignUpForm/index.jsx';
+import { CreateMovie } from './components/CreateMovie/index.jsx';
+import { UploadMovie } from './components/UploadMovie/index.jsx';
+import { SearchMovies } from './components/SearchMovies/index.jsx';
+import { MoviesTable } from './components/MoviesTable/index.jsx';
 import LinearProgress from '@mui/material/LinearProgress';
 import {destroy} from './api';
 
