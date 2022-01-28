@@ -22,19 +22,24 @@ function App() {
 
 
   async function deleteMovie(id) {
+    console.log(loading)
     dispatch({
       type: TYPES.SET_LOADING,
       payload: true
     })
+    console.log(loading)
+
     const r = await destroy(`movies/${id}`);
     dispatch({
         type: TYPES.DELETE_MOVIE,
         payload: id
     });
+    console.log(loading)
     dispatch({
       type: TYPES.SET_LOADING,
       payload: false
     })
+    console.log(loading)
   }
 
   async function fetchMovies(params={}) {

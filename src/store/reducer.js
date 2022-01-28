@@ -56,7 +56,7 @@ const reducer = (state = initialState, action) => {
 
 
         case TYPES.SET_LOADING: {
-          const loading = action.payload.data;
+          const loading = action.payload;
 
           return {
             ...state,
