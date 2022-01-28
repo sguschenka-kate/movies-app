@@ -22,29 +22,56 @@ const reducer = (state = initialState, action) => {
               ...state.movies,
               action.payload.data
             ];
+            const moviesCount = state.moviesCount+1
             return {
                 ...state,
-                movies
+                movies,
+                moviesCount
             }
         }
 
         case TYPES.FETCH_MOVIES: {
             const movies = action.payload.data;
 
+            const moviesCount = action.payload.meta.total
+
           return {
             ...state,
+            moviesCount,
+            movies
+          }
+        }
+
+        case TYPES.IMPORT_MOVIES: {
+          const movies = action.payload.data;
+
+          const moviesCount = action.payload.meta.total
+
+          return {
+            ...state,
+            moviesCount,
             movies
           }
         }
 
 
-        case TYPES.DELETE_MOVIE: {
-          const id = action.payload
-          console.log(id);
-          const movies = state.movies.filter(movie => movie.id !== id);
+        case TYPES.SET_LOADING: {
+          const loading = action.payload.data;
+
           return {
             ...state,
-            movies
+            loading
+          }
+        }
+
+        case TYPES.DELETE_MOVIE: {
+          const id = action.payload
+          const movies = state.movies.filter(movie => movie.id !== id);
+          const moviesCount = state.moviesCount - 1;
+          return {
+            ...state,
+            movies,
+            moviesCount
           }
         }
 

@@ -24,7 +24,6 @@ function SignUpForm({setIsAuthenticated}) {
     }
 
     const r = await post('users', user)
-    console.log(r)
     dispatch({
       type: TYPES.CREATE_USER,
       payload: r.token

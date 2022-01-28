@@ -14,7 +14,6 @@ function ShowMovieInfo({id}) {
 
     async function fetchMovieById(id) {
         const r = await get(`movies/${id}`);
-        console.log(r)
         setMovie(r.data)
       }
 

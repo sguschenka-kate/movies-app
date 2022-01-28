@@ -15,7 +15,6 @@ function MoviesTable({movies, deleteMovie}) {
   async function sortByTitle(order) {
     setSortDirection(order);
     const r = await get('movies', {sort: 'title', order: order});
-    console.log(r.data)
     dispatch({
       type: TYPES.SORT_MOVIES,
       payload: r

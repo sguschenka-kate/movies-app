@@ -5,9 +5,15 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        margin-left: 10px;
+
+        @media screen and (max-width: 520px) {
+          margin: 10px 0 0;
+        }
     }
 
     &-autocomplete {
         min-width: 210px;
     }
+
 }

@@ -20,3 +20,8 @@ $secondaryColor: #4CAF50;
 .MuiInput-underline:after {
     border-bottom: 2px solid $secondaryColor !important
 }
+
+.error-text {
+  font-size: 12px;
+  color: #F44336;
+}

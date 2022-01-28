@@ -1,5 +1,7 @@
 const initialState = {
     movies: [],
+    moviesCount: null,
+    loading: false,
     movie: {
         title: '',
         year: null,
